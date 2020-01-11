@@ -14,11 +14,11 @@ class section{
         string location; //npt configured yet
         bool day; //0 for UW and 1 for MR
     public:
-        bool filler; 
+        bool filler;
 
         section(int x)
         {
-            filler = true; 
+            filler = true;
         }
 
         section(){
@@ -26,7 +26,7 @@ class section{
            std::cin.ignore();
             cout<<"enter the name of the instructor: ";
             std::getline (std::cin, instructor);
-            
+
 
             cout<<"enter the section number: ";
             cin >> section_number;
@@ -43,7 +43,7 @@ class section{
 
         int time_returner()
         {
-            return time; 
+            return time;
         }
         bool days()
         {
@@ -62,13 +62,14 @@ class course{
         string course_name;
         double duration;
         section **array;
-       
+
+
     public:
-        
-        
+        bool registered = false;
+
         course()
         {
-            
+
             cout << "Please enter course name: " << endl;
             std::cin.ignore();
             std::getline(std::cin, course_name);
@@ -77,7 +78,7 @@ class course{
             cin >> only_one;
 
         if(!only_one)
-          {  
+          {
             cout << "How many sections does this course have \n";
             cin >> number_of_sections;
 
@@ -92,7 +93,7 @@ class course{
         if(special_length)
         {
             cout<<"Please enter the length of the course in hours as decimal: ";
-            cin >> duration; 
+            cin >> duration;
         }
 
         else duration = 1.5;
@@ -106,7 +107,7 @@ class course{
 
 }
 
-void createSections () 
+void createSections ()
 {
   array = new section* [number_of_sections];
   for(int i=0; i<number_of_sections; i++)
@@ -124,7 +125,7 @@ bool only_1()
 int section_time(int i)
         {
             return (array[i]->time_returner()-1); //this would return the corresponding index in the schedule array
-        } 
+        }
 
 bool day(int i)
 {
@@ -135,6 +136,20 @@ bool day(int i)
 section* section_returner(int i)
 {
     return array[i];
+}
+int returnNumberOfSections(){
+  return number_of_sections;
+}
+void printCourse(){
+	cout << "---------------------------" << course_name << "---------------------------" << endl;
+	cout << "Number of sections: " << number_of_sections << endl;
+	for (int i=0; i< number_of_sections; i++){
+		cout << "Section number " << i << " :" << endl;
+		cout << "Time is: " << array[i]->getTime() << endl;
+		cout << "Instructor is: "<< array[i]->getInstructor() << endl;
+
+	}
+
 }
 
 };
@@ -167,7 +182,7 @@ int main()
 
     for(int i=0; i<7; i++)
     {
-        MR[i] = fill; 
+        MR[i] = fill;
         UW[i] = fill;
     }
 
@@ -175,7 +190,7 @@ for(int i=0; i<number_of_courses; i++)
 {
     if(C[i]->only_1())
     {
-  
+
         //0 for UW and 1 for MR
         if(C[i]->day(0))
         {
@@ -186,4 +201,29 @@ for(int i=0; i<number_of_courses; i++)
     }
 }
     return 0;
+}
+
+bool isSafe (section * gadwal, i){
+  if(gadwal[i] == NULL )
+  return true;
+
+  else
+  return false;
+}
+
+void solveSchedule(section *schedule){
+if() // check if all the course are registered
+for(int i=0; i<no_of_courses; i++){
+
+  if(C[i]->registered == false){
+    for(int j=0; j<C[i]->returnNumberOfSections(); j++){
+      int timeIndex = C[i]->section_time(i);
+      if (isSafe(MR,timeIndex)){
+        MR[i]=C[i];
+      }
+    }
+
+  }
+}
+solveSchedule(schedule +1);
 }
