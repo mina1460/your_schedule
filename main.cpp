@@ -62,12 +62,14 @@ class course{
         string course_name;
         double duration;
         section **array;
+     
        
     public:
-        
+           bool registered;
         
         course()
         {
+            registered = false; 
             
             cout << "Please enter course name: " << endl;
             std::cin.ignore();
@@ -161,29 +163,61 @@ int main()
 
 
     //generating schedules
-    section* MR[7];
-    section* UW[7];
-    section* fill(0);
+    section* week[14]; //first 7 days for UW and next 7 days for MR
 
-    for(int i=0; i<7; i++)
+
+    for(int i=0; i<14; i++)
     {
-        MR[i] = fill; 
-        UW[i] = fill;
+        week[i] = NULL; 
     }
 
 for(int i=0; i<number_of_courses; i++)
 {
     if(C[i]->only_1())
     {
-  
+
         //0 for UW and 1 for MR
-        if(C[i]->day(0))
+        if(C[i]->day(0) && week[(C[i]->section_time(0))+7] == NULL)
         {
-            MR[C[i]->section_time(0)] = C[i]->section_returner(0);
+            week[(C[i]->section_time(0))+7] = C[i]->section_returner(0);
+             C[i]->registered = true;
+
         }
 
-        else UW[C[i]->section_time(0)] = C[i]->section_returner(0);
+        else if (!C[i]->day(0) && (week[C[i]->section_time(0)] == NULL))
+            {
+                week[C[i]->section_time(0)] = C[i]->section_returner(0);
+            
+            }
+
+            else cout <<"there is a clash between two courses that have only one section,\n please recheck your courses timing\n";
+            
+       
+    }
+
+   
+}
+
+
+
+for(int i=0; i<number_of_courses; i++)
+{
+    if(!(C[i]->registered))
+    {
+        if(C[i]->day(0))
+        {
+            week[(C[i]->section_time(0))+7] = C[i]->section_returner(0);
+
+        }
+
+        else week[C[i]->section_time(0)] = C[i]->section_returner(0);
+
+        C[i]->registered = true;
+
     }
 }
+
+
+
     return 0;
 }
